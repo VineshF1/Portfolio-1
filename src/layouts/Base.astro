@@ -1,0 +1,53 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/components.css';
+import '../styles/sections.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title ?? `${site.identity.name} — ${site.identity.role}`;
+const pageDescription =
+  description ?? 'Portfolio of Vinesh, an AI engineer building LLM apps, retrieval pipelines, and AI products.';
+---
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="theme-color" content="#0a0a08" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <!-- Canonical URL: set once a domain exists.
+    <link rel="canonical" href="https://your-domain.example/" /> -->
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Preloader: removed by JS once the boot animation completes.
+         Hidden entirely under `.no-js` so the page is never blocked. -->
+    <div class="preloader" data-preloader aria-hidden="true">
+      <p class="preloader-name" data-preloader-name>
+        {'Vinesh'.split('').map((ch) => <span>{ch}</span>)}
+      </p>
+      <p class="preloader-count mono" data-preloader-count>000</p>
+    </div>
+
+    <slot />
+  </body>
+</html>

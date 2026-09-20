@@ -1,0 +1,33 @@
+---
+import SectionHead from './SectionHead.astro';
+import { site } from '../data/site';
+
+const { capabilities } = site;
+---
+
+<section class="section" id={capabilities.id} aria-labelledby="capabilities-title">
+  <div class="shell">
+    <SectionHead
+      index={capabilities.index}
+      title={capabilities.title}
+      headingId="capabilities-title"
+    />
+
+    <ul class="cap-list">
+      {
+        capabilities.groups.map((g, i) => (
+          <li class="cap-row" data-reveal>
+            <h3 class="cap-name mono" id={`cap-${i}`}>{g.name}</h3>
+            <ul class="cap-items" aria-labelledby={`cap-${i}`}>
+              {g.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="cap-exploring mono" data-reveal>{capabilities.exploring}</p>
+  </div>
+</section>

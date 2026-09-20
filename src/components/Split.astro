@@ -1,0 +1,28 @@
+---
+/**
+ * Accessible word-split for staggered reveals.
+ * - The full text stays in one .sr-only span → the accessible name is never
+ *   split across elements.
+ * - The visual words live in an aria-hidden wrapper, and are fully visible
+ *   without JavaScript (GSAP only animates from a hidden state when motion
+ *   is allowed).
+ */
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const words = text.split(' ');
+---
+
+<span class="split" data-split>
+  <span class="sr-only">{text}</span>
+  <span class="split-visual" aria-hidden="true">
+    {words.map((word, i) => (
+      <>
+        <span class="w"><span class="wi">{word}</span></span>
+        {i < words.length - 1 ? ' ' : ''}
+      </>
+    ))}
+  </span>
+</span>

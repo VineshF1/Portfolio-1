@@ -1,0 +1,29 @@
+---
+/**
+ * Fixed section-progress rail (desktop only). State indicator, not motion —
+ * safe under reduced motion. Populated by IntersectionObserver in motion.ts.
+ */
+const sections = [
+  { id: 'approach', label: 'Approach' },
+  { id: 'work', label: 'Projects' },
+  { id: 'capabilities', label: 'Tech Stack' },
+  // { id: 'experience', label: 'Experience' }, // hidden until there is real experience to show
+  { id: 'oss', label: 'Repositories' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<nav class="rail" aria-label="Section progress">
+  <ul>
+    {
+      sections.map((s) => (
+        <li>
+          <a href={`#${s.id}`} data-rail-link={`#${s.id}`}>
+            <span class="rail-label">{s.label}</span>
+            <span class="rail-dot" aria-hidden="true" />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,770 @@
+/* ─── Sections: hero ─────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: calc(var(--gutter) + 5rem) var(--gutter) 2.25rem;
+  overflow: clip;
+}
+
+/* Static backdrop grid — always present, the canvas layers over it.
+   Keeps the first frame complete without JS, WebGL, or motion. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 96px 96px;
+  background-position: center top;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Poster state — reduced motion, WebGL failure or context loss:
+   the grid backdrop alone carries the hero, canvas is removed entirely. */
+.hero.is-poster .hero-canvas {
+  display: none;
+}
+
+/* Boot-frame styles removed — the hero hairline frame was dropped. */
+
+.hero-inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1.3rem, 2.6vw, 2.1rem);
+}
+
+.hero-eyebrow {
+  color: var(--ink-dim);
+}
+
+.hero-eyebrow::before {
+  content: '//';
+  color: var(--accent);
+  margin-right: 0.7em;
+}
+
+.hero-h1 {
+  font-size: clamp(2.9rem, 10.5vw, 10rem);
+  font-weight: 640;
+  line-height: 0.97;
+  letter-spacing: -0.03em;
+  max-width: 12ch;
+}
+
+/* Compositor hint while the word roll-back plays (layers released after) */
+.hero-h1 .wi {
+  will-change: transform;
+}
+
+/* The hero's only headline motion is the horizontal centre roll-back, so the
+   per-word clip boxes are lifted here — a sideways travel inside an
+   overflow-clipped word box gets chopped at its own edges. Section headings
+   keep their masked bottom-up rise. */
+.hero-h1 .w {
+  overflow: visible;
+}
+
+/* Pre-intro hidden state — declared in CSS, not JS, so there is never a flash
+   of final-state text between the loader wipe and the intro firing. Scoped to
+   html.js (JS present) + no-preference motion, so no-JS and reduced-motion
+   visitors always see the full page instantly. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-nav],
+  .js [data-intro='eyebrow'],
+  .js [data-intro='lede'],
+  .js [data-intro='cta'],
+  .js [data-intro='meta'] {
+    opacity: 0;
+  }
+
+  .js .hero-h1 .wi {
+    opacity: 0;
+  }
+}
+
+.hero-lede {
+  max-width: 54ch;
+  font-size: clamp(1.02rem, 1.5vw, 1.22rem);
+  line-height: 1.68;
+  color: var(--ink-dim);
+}
+
+.hero-lede strong {
+  color: var(--ink);
+  font-weight: 550;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.hero-foot {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem 2.5rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: 1.1rem;
+}
+
+/* ─── Section heads ──────────────────────────────────────────────────────────── */
+
+.sec-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1rem 1.4rem;
+  margin-bottom: clamp(2.6rem, 6vw, 4.5rem);
+}
+
+.sec-index {
+  color: var(--accent);
+}
+
+.sec-title {
+  font-size: clamp(2.3rem, 5.5vw, 4.3rem);
+  font-weight: 620;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.sec-rule {
+  flex: 1 1 3rem;
+  height: 1px;
+  min-width: 2.5rem;
+  align-self: center;
+  background: var(--line);
+  transform-origin: left;
+}
+
+.sec-note {
+  margin-left: auto;
+}
+
+/* ─── 01 · Approach ──────────────────────────────────────────────────────────── */
+
+.appr-statement {
+  max-width: 26ch;
+  font-size: clamp(1.9rem, 4.4vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.appr-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.appr-copy {
+  display: grid;
+  gap: 1.4rem;
+  max-width: 58ch;
+  color: var(--ink-dim);
+  font-size: 1.05rem;
+}
+
+.appr-principles {
+  display: grid;
+}
+
+.appr-principle {
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.appr-principle:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.appr-principle h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+
+.appr-principle h3 .mono {
+  color: var(--accent);
+}
+
+.appr-principle p {
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  max-width: 44ch;
+}
+
+@media (max-width: 899px) {
+  .appr-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── 02 · Selected work ─────────────────────────────────────────────────────── */
+
+.work-list {
+  border-top: 1px solid var(--line);
+}
+
+.work-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  padding-block: clamp(2.6rem, 5vw, 4.2rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.work-num {
+  color: var(--ink-faint);
+  margin-bottom: 1.1rem;
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.work-row:hover .work-num {
+  color: var(--accent);
+}
+
+.work-title {
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0.9rem;
+}
+
+.work-summary {
+  color: var(--ink-dim);
+  max-width: 52ch;
+  margin-bottom: 1.5rem;
+}
+
+.work-stack {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.35rem;
+  margin-bottom: 1.6rem;
+}
+
+.work-stack li {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.work-stack li + li::before {
+  content: '/';
+  color: var(--ink-faint);
+  padding-inline: 0.65rem;
+}
+
+.work-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  margin-bottom: 1.6rem;
+}
+
+.work-metrics dt {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.3rem;
+}
+
+.work-metrics dd {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+/* Preview plate — repo card image with the instrument corner marks kept */
+.plate {
+  align-self: start;
+  position: sticky;
+  top: 6rem;
+}
+
+.plate-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: #10100d;
+}
+
+.plate-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.work-row:hover .plate-media img {
+  transform: scale(1.02);
+}
+
+.plate-corner {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 0 solid var(--accent);
+}
+
+.plate-corner.tl { top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px; }
+.plate-corner.tr { top: -1px; right: -1px; border-top-width: 1px; border-right-width: 1px; }
+.plate-corner.bl { bottom: -1px; left: -1px; border-bottom-width: 1px; border-left-width: 1px; }
+.plate-corner.br { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.plate figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 899px) {
+  .work-row {
+    grid-template-columns: 1fr;
+  }
+
+  .plate {
+    position: static;
+    order: -1;
+  }
+}
+
+/* ─── 03 · Capabilities ──────────────────────────────────────────────────────── */
+
+.cap-list {
+  border-top: 1px solid var(--line);
+}
+
+.cap-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) 1fr;
+  gap: 1rem 2.5rem;
+  padding-block: 1.7rem;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+
+.cap-name {
+  color: var(--accent);
+}
+
+.cap-items {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.4rem;
+}
+
+.cap-items li {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.cap-items li + li::before {
+  content: '·';
+  color: var(--ink-faint);
+  padding-inline: 0.75rem;
+}
+
+.cap-exploring {
+  margin-top: 2rem;
+  color: var(--ink-dim);
+}
+
+.cap-exploring::before {
+  content: '// currently exploring: ';
+  color: var(--accent);
+}
+
+@media (max-width: 699px) {
+  .cap-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}
+
+/* ─── Experience — styles kept for the hidden section (restore with the component). ─── */
+
+.xp-list {
+  position: relative;
+  padding-left: clamp(1.8rem, 4vw, 3rem);
+}
+
+.xp-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.xp-line span {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.xp-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(9rem, 12rem) 1fr;
+  gap: 1rem 2.5rem;
+  padding-block: 2.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.xp-row::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * clamp(1.8rem, 4vw, 3rem) - 3.5px);
+  top: 2.55rem;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.xp-row.is-passed::before {
+  background: var(--accent);
+}
+
+.xp-when {
+  color: var(--ink-dim);
+  padding-top: 0.35rem;
+}
+
+.xp-role {
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.xp-org {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-left: 0.75rem;
+}
+
+.xp-body {
+  color: var(--ink-dim);
+  max-width: 60ch;
+}
+
+/* ─── 05 · Open source ───────────────────────────────────────────────────────── */
+
+.oss-list {
+  border-top: 1px solid var(--line);
+}
+
+.oss-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.4rem 2rem;
+  align-items: baseline;
+  padding-block: 1.55rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.oss-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.oss-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.oss-name .icon {
+  color: var(--ink-faint);
+  transition: color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+}
+
+.oss-row:hover .oss-name,
+.oss-name:focus-visible {
+  color: var(--accent);
+}
+
+.oss-row:hover .oss-name .icon {
+  color: var(--accent);
+  transform: translate(2px, -2px);
+}
+
+.oss-desc {
+  grid-column: 1;
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  max-width: 62ch;
+}
+
+.oss-stars {
+  grid-row: 1;
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+
+.oss-stars .icon {
+  color: var(--accent);
+}
+
+.oss-more {
+  margin-top: 2rem;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-block: 0.4rem;
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.link-arrow .icon {
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+.link-arrow:hover,
+.link-arrow:focus-visible {
+  color: var(--accent);
+}
+
+.link-arrow:hover .icon {
+  transform: translate(2px, -2px);
+}
+
+/* ─── 06 · Contact ───────────────────────────────────────────────────────────── */
+
+.contact-statement {
+  max-width: 14ch;
+  font-size: clamp(2.6rem, 7.5vw, 6.6rem);
+  font-weight: 640;
+  line-height: 0.99;
+  letter-spacing: -0.028em;
+  margin-bottom: clamp(1.6rem, 3.5vw, 2.6rem);
+}
+
+.contact-sub {
+  max-width: 52ch;
+  color: var(--ink-dim);
+  font-size: 1.05rem;
+  margin-bottom: clamp(2.2rem, 5vw, 3.5rem);
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.contact-mail {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3.4vw, 2.4rem);
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 0.3rem;
+  transition: color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+
+.contact-mail:hover,
+.contact-mail:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  color: var(--ink-dim);
+  transition: color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+
+.copy-btn:hover,
+.copy-btn:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy-btn.is-copied {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy-btn .icon-check {
+  display: none;
+}
+
+.copy-btn.is-copied .icon-check {
+  display: block;
+}
+
+.copy-btn.is-copied .icon-copy {
+  display: none;
+}
+
+.contact-note {
+  color: var(--ink-faint);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────────── */
+
+.footer {
+  padding-block: clamp(2.6rem, 6vw, 4rem) 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 2.5rem clamp(2.5rem, 6vw, 6rem);
+  padding-bottom: 2.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.f-brand {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.f-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.9rem;
+  align-content: start;
+}
+
+.f-links a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-block: 0.35rem;
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.f-links a:hover,
+.f-links a:focus-visible {
+  color: var(--accent);
+}
+
+.f-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+.f-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-block: 0.35rem;
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.f-top:hover,
+.f-top:focus-visible {
+  color: var(--accent);
+}
+
+@media (max-width: 899px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+

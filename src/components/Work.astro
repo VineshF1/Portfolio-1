@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import SectionHead from './SectionHead.astro';
+import { site } from '../data/site';
+
+import skytraceImg from '../assets/work/skytrace.png';
+import halosImg from '../assets/work/halos-ai.png';
+import suzeImg from '../assets/work/suze.png';
+import eauRougeImg from '../assets/work/eau-rouge.png';
+
+const images: Record<string, { src: ImageMetadata; alt: string }> = {
+  skytrace: {
+    src: skytraceImg,
+    alt: 'SkyTrace — multi-agent satellite tracking system, repository preview',
+  },
+  'halos-ai': {
+    src: halosImg,
+    alt: 'Halos AI — F1 chatbot with dual RAG and Text-to-SQL pipelines, repository preview',
+  },
+  suze: {
+    src: suzeImg,
+    alt: 'Suze — secure agentic RAG knowledge assistant, repository preview',
+  },
+  'eau-rouge': {
+    src: eauRougeImg,
+    alt: 'EauRouge-F1 — Qwen3-8B fine-tune on 10,656 F1 question-answer pairs, repository preview',
+  },
+};
+
+const { work } = site;
+
+/* Meta line — the role segment is optional; without it no separator is emitted. */
+type Project = (typeof work.projects)[number] & { role?: string };
+const meta = (p: Project) => `${p.num} / ${p.year}${p.role ? ` — ${p.role}` : ''}`;
+---
+
+<section class="section" id={work.id} aria-labelledby="work-title">
+  <div class="shell">
+    <SectionHead index={work.index} title={work.title} note={work.note} headingId="work-title" />
+
+    <div class="work-list">
+      {
+        work.projects.map((p) => (
+          <article class="work-row" data-reveal aria-labelledby={`work-${p.id}-title`}>
+            <div class="work-body">
+              <p class="work-num mono">{meta(p)}</p>
+              <h3 class="work-title" id={`work-${p.id}-title`}>{p.title}</h3>
+              <p class="work-summary">{p.summary}</p>
+
+              <ul class="work-stack" aria-label="Stack">
+                {p.stack.map((s) => (
+                  <li>{s}</li>
+                ))}
+              </ul>
+
+              <dl class="work-metrics">
+                {p.metrics.map((m) => (
+                  <div>
+                    <dt>{m.k}</dt>
+                    <dd>{m.v}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              {p.href && (
+                <div class="work-links">
+                  <a class="link-arrow" href={p.href} target="_blank" rel="noopener noreferrer">
+                    {p.hrefLabel}
+                    <Icon name="solar:arrow-right-up-linear" class="icon" size={15} aria-hidden="true" />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <figure class="plate">
+              <div class="plate-media">
+                <Image
+                  src={images[p.id].src}
+                  alt={images[p.id].alt}
+                  widths={[480, 760, 1200]}
+                  sizes="(max-width: 899px) 100vw, 46vw"
+                  loading="lazy"
+                  decoding="async" />
+                <span class="plate-corner tl" aria-hidden="true"></span>
+                <span class="plate-corner tr" aria-hidden="true"></span>
+                <span class="plate-corner bl" aria-hidden="true"></span>
+                <span class="plate-corner br" aria-hidden="true"></span>
+              </div>
+              <figcaption class="mono">
+                {p.title} — {p.year}
+              </figcaption>
+            </figure>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

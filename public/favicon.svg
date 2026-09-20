@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Authored mark: signal pulse on instrument black -->
+  <rect width="64" height="64" rx="6" fill="#0A0A08"/>
+  <polyline points="10,44 22,44 28,22 34,50 40,34 54,34" fill="none" stroke="#5AD9E6" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>
+

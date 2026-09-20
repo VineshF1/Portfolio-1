@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Rail from '../components/Rail.astro';
+import Hero from '../components/Hero.astro';
+import Approach from '../components/Approach.astro';
+import Work from '../components/Work.astro';
+import Capabilities from '../components/Capabilities.astro';
+// import Experience from '../components/Experience.astro'; // hidden until there is real experience to show
+import OpenSource from '../components/OpenSource.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+---
+
+<Base title={`${site.identity.name} — ${site.identity.role}`}>
+  <Nav />
+  <Rail />
+
+  <main id="main">
+    <Hero />
+    <Approach />
+    <Work />
+    <Capabilities />
+    <!-- <Experience /> hidden until there is real experience to show -->
+    <OpenSource />
+    <Contact />
+  </main>
+
+  <Footer />
+
+  <script>
+    import '../scripts/main.ts';
+  </script>
+</Base>

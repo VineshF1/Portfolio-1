@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components';
+import SectionHead from './SectionHead.astro';
+import { site } from '../data/site';
+
+const { oss, links } = site;
+---
+
+<section class="section" id={oss.id} aria-labelledby="oss-title">
+  <div class="shell">
+    <SectionHead index={oss.index} title={oss.title} note={oss.note} headingId="oss-title" />
+
+    <ul class="oss-list">
+      {
+        oss.repos.map((r) => (
+          <li class="oss-row" data-reveal>
+            <span class="oss-head">
+              <a
+                class="oss-name"
+                href={`${links.github}/${r.name}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {r.name}
+                <Icon name="solar:arrow-right-up-linear" class="icon" size={14} aria-hidden="true" />
+              </a>
+            </span>
+            <span class="oss-stars mono">
+              {r.metric} · {r.stack}
+            </span>
+            <p class="oss-desc">{r.desc}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="oss-more">
+      <a class="link-arrow" href={`${links.github}?tab=repositories`} target="_blank" rel="noopener noreferrer">
+        {oss.profileLabel}
+        <Icon name="solar:arrow-right-up-linear" class="icon" size={15} aria-hidden="true" />
+      </a>
+    </p>
+  </div>
+</section>

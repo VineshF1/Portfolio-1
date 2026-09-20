@@ -1,0 +1,41 @@
+---
+import { Icon } from 'astro-icon/components';
+import { site } from '../data/site';
+
+const { identity, nav, links } = site;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" aria-label="Footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="f-brand">
+        <a class="nav-brand" href="#top" aria-label={`${identity.name} — back to top`}>
+          <span class="nav-name">{identity.name}</span>
+        </a>
+        <p class="mono">{identity.role} — {identity.focus}</p>
+        {identity.availability && (
+          <p class="mono">
+            <span class="dot" aria-hidden="true"></span>{identity.availability}
+          </p>
+        )}
+      </div>
+
+      <!-- Duplicated nav = mobile users without JS can still navigate -->
+      <nav class="f-links" aria-label="Footer">
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={`mailto:${links.email}`}>Email</a>
+        <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </nav>
+    </div>
+
+    <div class="f-bottom">
+      <p class="mono">© {year} {identity.name}</p>
+      <a class="f-top" href="#top">
+        Back to top
+        <Icon name="solar:alt-arrow-up-linear" class="icon" size={14} aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+</footer>

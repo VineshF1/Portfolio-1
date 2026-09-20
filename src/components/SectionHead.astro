@@ -1,0 +1,22 @@
+---
+import Split from './Split.astro';
+
+interface Props {
+  index: string;
+  id?: string;
+  title: string;
+  note?: string;
+  headingId?: string;
+}
+
+const { index, title, note, headingId } = Astro.props;
+---
+
+<header class="sec-head">
+  <p class="sec-index mono">{index}</p>
+  <h2 class="sec-title" id={headingId} data-split-head>
+    <Split text={title} />
+  </h2>
+  <span class="sec-rule" data-rule aria-hidden="true"></span>
+  {note && <p class="sec-note mono">{note}</p>}
+</header>

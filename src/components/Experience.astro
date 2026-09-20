@@ -1,0 +1,43 @@
+---
+import SectionHead from './SectionHead.astro';
+import { site } from '../data/site';
+
+const { experience } = site;
+---
+
+<!-- ── Experience is hidden until there is real experience to show.
+     To restore: uncomment the <Experience /> import + usage in
+     src/pages/index.astro, the 'Experience' entry in the nav array in
+     src/data/site.ts, and the 'experience' entry in src/components/Rail.astro.
+<section class="section" id={experience.id} aria-labelledby="experience-title">
+  <div class="shell">
+    <SectionHead
+      index={experience.index}
+      title={experience.title}
+      headingId="experience-title"
+    />
+
+    <div class="xp-list">
+      <!-- Progress hairline — the one justified scrubbed sequence on the page -->
+      <div class="xp-line" aria-hidden="true"><span data-xp-line></span></div>
+
+      <ol>
+        {
+          experience.entries.map((e) => (
+            <li class="xp-row" data-reveal>
+              <p class="xp-when mono">{e.period}</p>
+              <div>
+                <h3 class="xp-role">
+                  {e.role}
+                  <span class="xp-org">{e.org}</span>
+                </h3>
+                <p class="xp-body">{e.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+-->

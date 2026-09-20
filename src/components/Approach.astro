@@ -1,0 +1,41 @@
+---
+import SectionHead from './SectionHead.astro';
+import Split from './Split.astro';
+import { site } from '../data/site';
+
+const { approach } = site;
+---
+
+<section class="section" id={approach.id} aria-labelledby="approach-title">
+  <div class="shell">
+    <SectionHead
+      index={approach.index}
+      title={approach.title}
+      headingId="approach-title"
+    />
+
+    <p class="appr-statement" data-split-head>
+      <Split text={approach.statement} />
+    </p>
+
+    <div class="appr-grid">
+      <div class="appr-copy" data-reveal-group>
+        {approach.body.map((para) => <p data-reveal>{para}</p>)}
+      </div>
+
+      <ul class="appr-principles" data-reveal-group>
+        {
+          approach.principles.map((p, i) => (
+            <li class="appr-principle" data-reveal>
+              <h3>
+                <span class="mono">0{i + 1}</span>
+                {p.title}
+              </h3>
+              <p>{p.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+/* ─── Design tokens — "instruments, not decoration" ─────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  /* Canvas & ink */
+  --bg: #0a0a08;
+  --ink: #edece4;
+  --ink-dim: #9a978b;
+  --ink-faint: #6b695e;
+
+  /* Signal accent — ice cyan, used sparingly */
+  --accent: #5ad9e6;
+  --accent-ink: #04161a;
+
+  /* Hairlines */
+  --line: rgba(237, 236, 228, 0.1);
+  --line-strong: rgba(237, 236, 228, 0.24);
+
+  /* Type */
+  --font-display: 'Space Grotesk Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Rhythm */
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --container: 88rem;
+  --section-pad: clamp(4.5rem, 10vw, 8.5rem);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-2: 280ms;
+  --dur-3: 560ms;
+}

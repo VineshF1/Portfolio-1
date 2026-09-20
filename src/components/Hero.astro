@@ -1,0 +1,43 @@
+---
+import { Icon } from 'astro-icon/components';
+import Split from './Split.astro';
+import { site } from '../data/site';
+
+const { hero, identity, links } = site;
+---
+
+<section class="hero" id="top" data-hero aria-label="Introduction">
+  <!-- Original GLSL signal field (see src/scripts/signal-field.ts).
+       Replaced by the static grid backdrop under reduced motion / WebGL failure. -->
+  <canvas class="hero-canvas" data-signal aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow mono" data-intro="eyebrow">{hero.eyebrow}</p>
+
+    <h1 class="hero-h1" data-intro="h1">
+      <Split text={hero.headline} />
+    </h1>
+
+    <p class="hero-lede" data-intro="lede">{hero.lede}</p>
+
+    <div class="hero-cta" data-intro="cta">
+      <a class="btn btn-primary" href={hero.primaryHref}>
+        {hero.primaryCta}
+        <Icon name="solar:alt-arrow-down-linear" class="icon" size={16} aria-hidden="true" />
+      </a>
+      <a class="btn btn-ghost" href={links.github} target="_blank" rel="noopener noreferrer">
+        {hero.secondaryCta}
+        <Icon name="solar:arrow-right-up-linear" class="icon" size={16} aria-hidden="true" />
+      </a>
+    </div>
+
+    <div class="hero-foot mono" data-intro="meta">
+      <span class="hero-foot-item">{identity.name} — {identity.role}</span>
+      {identity.availability && (
+        <span class="hero-foot-item">
+          <span class="dot" aria-hidden="true"></span>{identity.availability}
+        </span>
+      )}
+    </div>
+  </div>
+
+</section>

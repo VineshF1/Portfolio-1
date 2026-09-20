@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+import { site } from '../data/site';
+
+const { nav, identity, links } = site;
+---
+
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top" aria-label={`${identity.name} — back to top`}>
+      <span class="nav-name">{identity.name}</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="nav-side">
+      {identity.availabilityShort && (
+        <span class="nav-status">
+          <span class="dot" aria-hidden="true"></span>{identity.availabilityShort}
+        </span>
+      )}
+      <button
+        class="nav-menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        data-menu-btn
+      >
+        <span class="sr-only">Open menu</span>
+        <Icon name="solar:hamburger-menu-linear" class="icon" size={20} aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="site-menu" data-menu hidden>
+  <button class="menu-close" type="button" data-menu-close>
+    <span class="sr-only">Close menu</span>
+    <Icon name="solar:close-circle-linear" class="icon" size={22} aria-hidden="true" />
+  </button>
+
+  <nav class="menu-list" aria-label="Menu">
+    {nav.map((item) => <a href={item.href} data-menu-link>{item.label}</a>)}
+  </nav>
+
+  <div class="menu-meta">
+    <a href={`mailto:${links.email}`} data-menu-link>{links.email}</a>
+    <a href={links.github} target="_blank" rel="noopener noreferrer" data-menu-link>GitHub</a>
+    <a href={links.linkedin} target="_blank" rel="noopener noreferrer" data-menu-link>LinkedIn</a>
+    {identity.availability && (
+      <span class="mono">
+        <span class="dot" aria-hidden="true"></span>{identity.availability}
+      </span>
+    )}
+  </div>
+</div>
