@@ -1,4 +1,4 @@
-# Vinesh — AI Engineer
+# Vinesh
 
 A single-page portfolio: warm-black canvas, hairline rules, mono annotations, one phosphor accent, and an authored GLSL "signal topography" field as the hero atmosphere.
 
@@ -41,3 +41,8 @@ npm run preview  # preview the production build
 - Icons: Solar set via Iconify (`@iconify-json/solar`, bundled at build)
 - Hero atmosphere: original authored work (GLSL field) — no reference assets were traced or reproduced
 
+## Author
+
+**Vinesh**
+
+Built with ❤️
