@@ -1,6 +1,11 @@
 ---
 import '@fontsource-variable/space-grotesk';
 import '@fontsource-variable/jetbrains-mono';
+/* The two latin faces the first screen actually renders, imported as URLs so
+   the head can preload them (see below). Same source files the stylesheet
+   points at — one file each in the build. */
+import groteskLatin from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
+import monoLatin from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
 import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/components.css';
@@ -27,6 +32,10 @@ const pageDescription =
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#0a0a08" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Preload the first-screen faces: the hero intro measures the headline in
+         px, so a font swap landing mid-roll-back is a visible jump. -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href={groteskLatin} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href={monoLatin} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />

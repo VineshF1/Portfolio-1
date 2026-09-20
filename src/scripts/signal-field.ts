@@ -101,15 +101,45 @@ void main() {
 }
 `;
 
-export function initSignalField(host: HTMLElement): Cleanup | null {
-  const canvas = host.querySelector<HTMLCanvasElement>('canvas[data-signal]');
-  if (!canvas) return null;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+type ThreeModule = typeof import('three');
 
+/** Boot-time cache — the chunk is fetched at most once per page. */
+let warm: Promise<ThreeModule> | null = null;
+
+/** Motion allowed AND a usable WebGL context: the field's only hard blockers. */
+function supported(): boolean {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
   // Capability probe on a scratch canvas — never touches the real one
   const probe = document.createElement('canvas');
-  const gl = probe.getContext('webgl2') ?? probe.getContext('webgl');
-  if (!gl) return null;
+  return Boolean(probe.getContext('webgl2') ?? probe.getContext('webgl'));
+}
+
+/**
+ * Pull the Three.js chunk in while the boot screen still owns the screen.
+ * Module evaluation is the last cost that can be moved off the intro's
+ * timeline; the renderer itself (context creation + shader compile) is still
+ * built later, once the hero has finished landing. Returns null when the field
+ * can never run — reduced motion or no WebGL — so nothing is fetched for a hero
+ * that is going to be a poster anyway.
+ */
+export function warmSignalField(): Promise<ThreeModule> | null {
+  if (!supported()) return null;
+  warm ??= import('three');
+  /* The failure path is handled at boot time (static poster fallback). This
+     no-op keeps a failed fetch from surfacing as an unhandled rejection while
+     the boot screen is still running — the caller still sees the rejection and
+     falls back to the poster grid. */
+  warm.catch(() => {});
+  return warm;
+}
+
+export function initSignalField(
+  host: HTMLElement,
+  preloaded: Promise<ThreeModule> | null = null,
+): Cleanup | null {
+  const canvas = host.querySelector<HTMLCanvasElement>('canvas[data-signal]');
+  if (!canvas) return null;
+  if (!supported()) return null;
 
   const coarse = window.matchMedia('(pointer: coarse)').matches;
   // Fragment cost is (DPR^2) — every extra pixel is 20 noise evals. 1.25 keeps
@@ -301,7 +331,7 @@ export function initSignalField(host: HTMLElement): Cleanup | null {
     dispose();
   };
 
-  import('three')
+  (preloaded ?? warm ?? import('three'))
     .then((THREE) => {
       if (disposed) return;
       let created: import('three').WebGLRenderer;

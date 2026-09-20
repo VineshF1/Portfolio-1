@@ -17,7 +17,7 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 
 export type Cleanup = () => void;
 
-export function initMotion(): { cleanup: Cleanup; startIntro: () => void } {
+export function initMotion(): { cleanup: Cleanup; startIntro: (onDone?: () => void) => void } {
   const cleanups: Cleanup[] = [];
   const on = (target: EventTarget, type: string, fn: EventListener) => {
     target.addEventListener(type, fn);
@@ -30,7 +30,12 @@ export function initMotion(): { cleanup: Cleanup; startIntro: () => void } {
 
   const menu = initMenu();
   initCopy();
-  initRail();
+  cleanups.push(initRail());
+
+  /* Intro state: a layout refresh that lands on top of a running timeline
+     shows up as a hitch, so font-driven refreshes are queued to its last frame. */
+  let introRunning = false;
+  let refreshQueued = false;
 
   /* Reduced motion: settle into final states, skip every timeline. */
   if (reduce.matches) {
@@ -85,7 +90,8 @@ export function initMotion(): { cleanup: Cleanup; startIntro: () => void } {
      All targets start hidden via CSS (html.js, motion-allowed) — these are
      .to() tweens revealing that state, so no flash can ever occur between
      loader removal and intro start. */
-  const startIntro = () => {
+  const startIntro = (onDone?: () => void) => {
+    introRunning = true;
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     // Set the roll-back start offset before revealing (words are still
@@ -146,11 +152,20 @@ export function initMotion(): { cleanup: Cleanup; startIntro: () => void } {
         0.82,
       );
 
-    // Release the promoted layers once the roll-back lands
+    // Release the promoted layers once the roll-back lands, then hand the
+    // stage over (the WebGL boot rides on this callback).
     tl.eventCallback('onComplete', () => {
       document
         .querySelectorAll<HTMLElement>('.hero-h1 .wi')
         .forEach((el) => (el.style.willChange = 'auto'));
+      introRunning = false;
+      /* A late webfont refresh queued behind the intro lands here — over a
+         still hero instead of under a moving one. */
+      if (refreshQueued) {
+        refreshQueued = false;
+        ScrollTrigger.refresh();
+      }
+      onDone?.();
     });
 
     return tl;
@@ -158,8 +173,14 @@ export function initMotion(): { cleanup: Cleanup; startIntro: () => void } {
 
   buildScrollScenes();
 
-  // Measurements can shift once webfonts finish loading
-  document.fonts?.ready.then(() => ScrollTrigger.refresh());
+  // Measurements can shift once webfonts finish loading. If they land while the
+  // intro is still on screen the refresh is queued for its last frame — a
+  // relayout mid-timeline reads as a hitch (fonts are preloaded, so this is
+  // only the slow-connection path).
+  document.fonts?.ready.then(() => {
+    if (introRunning) refreshQueued = true;
+    else ScrollTrigger.refresh();
+  });
 
   /* If the user switches to reduced motion mid-session, degrade one-way. */
   const onReduceChange = () => {
@@ -369,29 +390,58 @@ function initCopy() {
 }
 
 /* ── Section-progress rail ───────────────────────────────────────────────────── */
-function initRail() {
-  const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>('.rail [data-rail-link]'),
-  );
-  if (!links.length || !('IntersectionObserver' in window)) return;
+type RailTarget = { id: string; el: HTMLElement; link: HTMLAnchorElement };
 
-  const setActive = (id: string) => {
-    links.forEach((l) =>
-      l.classList.toggle('is-active', l.getAttribute('data-rail-link') === `#${id}`),
-    );
+/**
+ * Positional scroll-spy. The active entry is the LAST section whose top has
+ * crossed 45% of the viewport — the same line the previous observer band sat
+ * on, but measured from live rects every scroll so that regions no entry owns
+ * (the hero / `#top`) actively CLEAR the rail. The old IntersectionObserver only
+ * ever turned entries on, so a boot-time layout shift or a restored scroll
+ * position could leave `Approach` lit while you were still in the hero.
+ */
+function initRail(): Cleanup {
+  const targets: RailTarget[] = [];
+  document.querySelectorAll<HTMLAnchorElement>('.rail [data-rail-link]').forEach((link) => {
+    const id = (link.getAttribute('data-rail-link') || '').replace(/^#/, '');
+    const el = id ? document.getElementById(id) : null;
+    if (el) targets.push({ id, el, link });
+  });
+  if (!targets.length) return () => {};
+
+  let frame = 0;
+  let active = '';
+
+  const measure = () => {
+    frame = 0;
+    const line = window.innerHeight * 0.45;
+    let next = '';
+    targets.forEach((t) => {
+      if (t.el.getBoundingClientRect().top <= line) next = t.id;
+    });
+    if (next === active) return;
+    active = next;
+    targets.forEach((t) => t.link.classList.toggle('is-active', t.id === active));
   };
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActive((entry.target as HTMLElement).id);
-      });
-    },
-    { rootMargin: '-42% 0px -52% 0px' },
-  );
+  const schedule = () => {
+    if (frame) return;
+    frame = window.requestAnimationFrame(measure);
+  };
 
-  links.forEach((l) => {
-    const target = document.querySelector(l.getAttribute('data-rail-link') || '');
-    if (target) io.observe(target);
-  });
+  measure();
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  /* One re-measure after the boot layout settles — fonts land, the WebGL canvas
+     mounts and the intro runs, all after the first measurement above. */
+  window.addEventListener('load', schedule, { once: true });
+  document.fonts?.ready.then(schedule).catch(() => {});
+
+  return () => {
+    if (frame) window.cancelAnimationFrame(frame);
+    window.removeEventListener('scroll', schedule);
+    window.removeEventListener('resize', schedule);
+    window.removeEventListener('load', schedule);
+  };
 }
