@@ -16,6 +16,10 @@ const { nav, identity, links } = site;
     </nav>
 
     <div class="nav-side">
+      <a class="nav-resume" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+        Resume
+        <Icon name="solar:arrow-right-up-linear" class="icon" size={14} aria-hidden="true" />
+      </a>
       {identity.availabilityShort && (
         <span class="nav-status">
           <span class="dot" aria-hidden="true"></span>{identity.availabilityShort}
@@ -47,6 +51,7 @@ const { nav, identity, links } = site;
 
   <div class="menu-meta">
     <a href={`mailto:${links.email}`} data-menu-link>{links.email}</a>
+    <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" data-menu-link>Resume (PDF ↗)</a>
     <a href={links.github} target="_blank" rel="noopener noreferrer" data-menu-link>GitHub</a>
     <a href={links.linkedin} target="_blank" rel="noopener noreferrer" data-menu-link>LinkedIn</a>
     {identity.availability && (
