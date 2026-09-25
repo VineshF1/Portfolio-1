@@ -28,7 +28,7 @@ export const site = {
   hero: {
     eyebrow: 'AI Engineer — LLMs · RAG · Agents',
     headline: 'Intelligence, engineered.',
-    lede: 'I build AI systems that ship — multi-agent systems on live APIs, RAG pipelines with hybrid search, and a fine-tuned Qwen3-8B on Hugging Face. Grounded answers, measured quality, interfaces people can trust.',
+    lede: 'I build AI systems that actually ship — multi-agent orchestration over live APIs, RAG that grounds every answer, and evals that gate every release. Measured, honest, and built to be used.',
     primaryCta: 'Projects',
     primaryHref: '#work',
     secondaryCta: 'GitHub',
@@ -136,22 +136,22 @@ export const site = {
     groups: [
       {
         name: 'Models & Frameworks',
-        items: ['Python', 'LangChain', 'LlamaIndex', 'Fine-tuning', 'Prompt engineering'],
+        items: ['Python', 'JavaScript', 'LangChain', 'LLM fine-tuning (QLoRA / Unsloth)', 'Google ADK', 'MCP', 'Prompt engineering'],
       },
       {
         name: 'Retrieval & Data',
-        items: ['RAG pipelines', 'Chunking strategies', 'FAISS', 'pgvector', 'Pinecone / Qdrant', 'Embeddings + re-ranking', 'SQL · PostgreSQL · MongoDB'],
+        items: ['RAG pipelines', 'Hybrid search (BM25 + dense)', 'pgvector', 'Supabase', 'PostgreSQL', 'Embeddings + re-ranking', 'NLP'],
       },
       {
         name: 'Agents & Tools',
-        items: ['Function calling / tool use', 'Agents', 'Data cleaning & preprocessing', 'Web scraping'],
+        items: ['Multi-agent systems', 'Agentic AI', 'Function calling / tool use', 'SGP4 orbital mechanics', 'Web scraping'],
       },
       {
         name: 'Ship & Serve',
-        items: ['Eval harnesses', 'Latency / cost optimization', 'Streaming responses', 'FastAPI · Flask · REST', 'Docker · CI/CD', 'React · Next.js · Astro', 'Streamlit / Gradio demos'],
+        items: ['FastAPI', 'Eval harnesses', 'Docker · CI/CD', 'Vercel', 'React · Next.js · Astro', 'Git · GitHub'],
       },
     ],
-    exploring: 'AI agents / multi-agent systems',
+    exploring: 'Multi-agent orchestration & production LLM serving',
   },
 
   experience: {
