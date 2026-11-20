@@ -72,10 +72,10 @@ export const site = {
         year: '2026',
         title: 'SkyTrace',
         summary:
-          'Ask where any satellite is in plain English and get live orbital answers. Two agents split the job — one talks, one does the math — with an MCP server as the exclusive gateway to N2YO, Celestrak, and Nominatim, plus true 3D slant-range distance.',
+          'Ask where any satellite is in plain English and get live orbital answers. Two agents split the job — one talks, one does the math — with one MCP server as the exclusive gateway to N2YO, Celestrak, and Nominatim. SGP4 propagation, ECEF/Haversine slant-range math, and token-bucket rate limiting; 14/14 tests pass.',
         stack: ['Python', 'Google ADK', 'MCP', 'N2YO'],
         metrics: [
-          { k: 'Architecture', v: 'Multi-agent + MCP' },
+          { k: 'Tests', v: '14/14 passing' },
           { k: 'Scope', v: '3 live APIs' },
         ],
         href: 'https://github.com/VineshF1/SkyTrace',
@@ -87,11 +87,11 @@ export const site = {
         year: '2026',
         title: 'Halos AI',
         summary:
-          'An F1 chatbot that routes every question to the right brain — RAG over 1,469 Wikipedia chunks for trivia, Text-to-SQL for stats — with hybrid BM25 + pgvector search, prompt-injection detection, and a live React chat UI.',
+          'An F1 chatbot that routes every question to the right brain — hybrid RAG (BM25 + pgvector over 1,469 embeddings from 64 Wikipedia pages) for trivia, Text-to-SQL for stats — with prompt-injection detection, per-IP rate limiting, and a live React/TypeScript chat UI.',
         stack: ['Python', 'FastAPI', 'pgvector', 'React'],
         metrics: [
-          { k: 'Data scale', v: '1,469 chunks indexed' },
-          { k: 'Deployed', v: 'Live demo online' },
+          { k: 'Routing', v: '27/30 correct' },
+          { k: 'Text-to-SQL', v: '16/20 (80%)' },
         ],
         href: 'https://github.com/VineshF1/Halos-AI',
         hrefLabel: 'Source',
@@ -117,11 +117,11 @@ export const site = {
         year: '2026',
         title: 'EauRouge-F1',
         summary:
-          'Qwen3-8B fine-tuned on 10,656 F1 question-answer pairs — race results, qualifying, driver bios, champions. QLoRA on a Colab T4, weights published on Hugging Face, training notebook in the repo.',
+          'Qwen3-8B fine-tuned with QLoRA (r=32, 4-bit) on 5,872 rows from a 10,656-pair F1 Q&A dataset — race results, qualifying, driver bios, champions. Found 88.5% answer leakage in a random split, rebuilt by source with zero shared answers, and published the weights on Hugging Face.',
         stack: ['Unsloth', 'QLoRA', 'Qwen3-8B', 'Hugging Face'],
         metrics: [
-          { k: 'Training data', v: '10,656 QA pairs' },
-          { k: 'Published', v: 'Model on Hugging Face' },
+          { k: 'Eval lift', v: '33 → 43 / 100' },
+          { k: 'Training data', v: '5,872 rows' },
         ],
         href: 'https://github.com/VineshF1/EauRouge-F1',
         hrefLabel: 'Source',
@@ -135,20 +135,20 @@ export const site = {
     title: 'Tech Stack',
     groups: [
       {
-        name: 'Models & Frameworks',
-        items: ['Python', 'JavaScript', 'LangChain', 'LLM fine-tuning (QLoRA / Unsloth)', 'Google ADK', 'MCP', 'Prompt engineering'],
+        name: 'Languages & Frameworks',
+        items: ['Python', 'SQL', 'TypeScript', 'JavaScript', 'FastAPI', 'React', 'LangChain', 'LangGraph', 'Google ADK', 'Unsloth'],
       },
       {
         name: 'Retrieval & Data',
-        items: ['RAG pipelines', 'Hybrid search (BM25 + dense)', 'pgvector', 'Supabase', 'PostgreSQL', 'Embeddings + re-ranking', 'NLP'],
+        items: ['RAG pipelines', 'Hybrid search (BM25 + pgvector)', 'Text-to-SQL', 'PostgreSQL', 'pgvector', 'Vector databases', 'NVIDIA NV-Embed-v1'],
       },
       {
-        name: 'Agents & Tools',
-        items: ['Multi-agent systems', 'Agentic AI', 'Function calling / tool use', 'SGP4 orbital mechanics', 'Web scraping'],
+        name: 'Agents & Tooling',
+        items: ['Multi-agent systems', 'MCP', 'Prompt engineering', 'LLM guardrails', 'QLoRA fine-tuning', 'SGP4 orbital mechanics', 'Web scraping'],
       },
       {
         name: 'Ship & Serve',
-        items: ['FastAPI', 'Eval harnesses', 'Docker · CI/CD', 'Vercel', 'React · Next.js · Astro', 'Git · GitHub'],
+        items: ['Git · GitHub', 'Docker', 'Vercel · Render', 'AI-assisted development', 'Per-IP rate limiting', 'Eval harnesses'],
       },
     ],
     exploring: 'Multi-agent orchestration & production LLM serving',
@@ -157,25 +157,25 @@ export const site = {
   experience: {
     index: '04',
     id: 'experience',
-    title: 'Experience',
+    title: 'Education',
     entries: [
       {
-        period: '2024 — Now',
-        role: 'Frontend Engineer',
-        org: 'Nexline Systems', // [REPLACE]
-        body: 'Own the interface layer of a real-time logistics platform — a WebGL fleet map and ops surfaces used daily by 2k+ operators; cut median interaction latency 38%.', // [REPLACE]
+        period: '2027',
+        role: 'B.Tech — Artificial Intelligence & Machine Learning',
+        org: 'Sri Vasavi Inst. of Engg. & Tech., Nandamuru',
+        body: 'CGPA: 7.94',
       },
       {
-        period: '2023 — 2024',
-        role: 'Creative Developer',
-        org: 'Independent', // [REPLACE]
-        body: 'Interactive sites and product surfaces for studio clients. Three launches, all shipping under 1 s LCP on mid-tier phones.', // [REPLACE]
+        period: '2023',
+        role: 'Intermediate',
+        org: 'Pavithra Co-Op Junior College, Machilipatnam',
+        body: 'Percentage: 85.4%',
       },
       {
-        period: '2019 — 2023',
-        role: 'B.E. Computer Science',
-        org: 'Pune Institute of Engineering', // [REPLACE]
-        body: 'Thesis: real-time neural rendering in the browser. Graduated first class with distinction.', // [REPLACE]
+        period: '2021',
+        role: 'SSC',
+        org: 'Dr. KKR Gowtham School, Machilipatnam',
+        body: 'Percentage: 99%',
       },
     ],
   },
@@ -188,13 +188,13 @@ export const site = {
     repos: [
       {
         name: 'SkyTrace',
-        desc: 'Multi-agent satellite tracking — ADK agents, MCP gateway, real-time orbital mechanics.',
+        desc: 'Two-agent satellite tracking — one MCP gateway for Celestrak, N2YO & Nominatim; 14/14 tests passing.',
         stack: 'Python',
         metric: 'Multi-agent system',
       },
       {
         name: 'Halos-AI',
-        desc: 'F1 chatbot — dual RAG + Text-to-SQL pipelines with query classification.',
+        desc: 'F1 chatbot — hybrid BM25 + pgvector RAG vs Text-to-SQL routing; 27/30 routing, 16/20 SQL queries correct.',
         stack: 'Python · React',
         metric: 'Deployed full-stack app',
       },
@@ -206,7 +206,7 @@ export const site = {
       },
       {
         name: 'EauRouge-F1',
-        desc: 'Qwen3-8B fine-tuned on 10,656 F1 QA pairs — QLoRA via Unsloth, weights on Hugging Face.',
+        desc: 'Qwen3-8B QLoRA fine-tune — leakage-safe split, answer-match lifted 33 → 43 / 100. Weights on Hugging Face.',
         stack: 'Jupyter',
         metric: 'Fine-tuned model on HF',
       },
