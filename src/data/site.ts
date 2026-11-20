@@ -67,23 +67,8 @@ export const site = {
     note: 'Shipped builds — live, working, and open to explore',
     projects: [
       {
-        id: 'skytrace',
-        num: '01',
-        year: '2026',
-        title: 'SkyTrace',
-        summary:
-          'Ask where any satellite is in plain English and get live orbital answers. Two agents split the job — one talks, one does the math — with one MCP server as the exclusive gateway to N2YO, Celestrak, and Nominatim. SGP4 propagation, ECEF/Haversine slant-range math, and token-bucket rate limiting; 14/14 tests pass.',
-        stack: ['Python', 'Google ADK', 'MCP', 'N2YO'],
-        metrics: [
-          { k: 'Tests', v: '14/14 passing' },
-          { k: 'Scope', v: '3 live APIs' },
-        ],
-        href: 'https://github.com/VineshF1/SkyTrace',
-        hrefLabel: 'Source',
-      },
-      {
         id: 'halos-ai',
-        num: '02',
+        num: '01',
         year: '2026',
         title: 'Halos AI',
         summary:
@@ -97,23 +82,23 @@ export const site = {
         hrefLabel: 'Source',
       },
       {
-        id: 'suze',
-        num: '03',
+        id: 'skytrace',
+        num: '02',
         year: '2026',
-        title: 'Suze',
+        title: 'SkyTrace',
         summary:
-          'A secure agentic RAG assistant for your own documents. Upload PDFs and ask — a 3-stage hybrid filter retrieves, then a LangGraph loop critiques and reformulates until the answer is grounded or safely refused.',
-        stack: ['Python', 'LangGraph', 'ChromaDB', 'React'],
+          'Ask where any satellite is in plain English and get live orbital answers. Two agents split the job — one talks, one does the math — with one MCP server as the exclusive gateway to N2YO, Celestrak, and Nominatim. SGP4 propagation, ECEF/Haversine slant-range math, and token-bucket rate limiting; 14/14 tests pass.',
+        stack: ['Python', 'Google ADK', 'MCP', 'N2YO'],
         metrics: [
-          { k: 'Search', v: 'Hybrid BM25 + Dense + RRF' },
-          { k: 'Pattern', v: 'Agentic self-correction' },
+          { k: 'Tests', v: '14/14 passing' },
+          { k: 'Scope', v: '3 live APIs' },
         ],
-        href: 'https://github.com/VineshF1/Suze',
+        href: 'https://github.com/VineshF1/SkyTrace',
         hrefLabel: 'Source',
       },
       {
         id: 'eau-rouge',
-        num: '04',
+        num: '03',
         year: '2026',
         title: 'EauRouge-F1',
         summary:
@@ -124,6 +109,21 @@ export const site = {
           { k: 'Training data', v: '5,872 rows' },
         ],
         href: 'https://github.com/VineshF1/EauRouge-F1',
+        hrefLabel: 'Source',
+      },
+      {
+        id: 'suze',
+        num: '04',
+        year: '2026',
+        title: 'Suze',
+        summary:
+          'A secure agentic RAG assistant for your own documents. Upload PDFs and ask — a 3-stage hybrid filter retrieves, then a LangGraph loop critiques and reformulates until the answer is grounded or safely refused.',
+        stack: ['Python', 'LangGraph', 'ChromaDB', 'React'],
+        metrics: [
+          { k: 'Search', v: 'Hybrid BM25 + Dense + RRF' },
+          { k: 'Pattern', v: 'Agentic self-correction' },
+        ],
+        href: 'https://github.com/VineshF1/Suze',
         hrefLabel: 'Source',
       },
     ],
@@ -187,28 +187,28 @@ export const site = {
     note: 'Source code, datasets, and weights — open for the community',
     repos: [
       {
-        name: 'SkyTrace',
-        desc: 'Two-agent satellite tracking — one MCP gateway for Celestrak, N2YO & Nominatim; 14/14 tests passing.',
-        stack: 'Python',
-        metric: 'Multi-agent system',
-      },
-      {
         name: 'Halos-AI',
         desc: 'F1 chatbot — hybrid BM25 + pgvector RAG vs Text-to-SQL routing; 27/30 routing, 16/20 SQL queries correct.',
         stack: 'Python · React',
         metric: 'Deployed full-stack app',
       },
       {
-        name: 'Suze',
-        desc: 'Secure agentic RAG assistant — 3-stage hybrid filter, LangGraph self-correction.',
+        name: 'SkyTrace',
+        desc: 'Two-agent satellite tracking — one MCP gateway for Celestrak, N2YO & Nominatim; 14/14 tests passing.',
         stack: 'Python',
-        metric: 'Hybrid search · Self-correcting',
+        metric: 'Multi-agent system',
       },
       {
         name: 'EauRouge-F1',
         desc: 'Qwen3-8B QLoRA fine-tune — leakage-safe split, answer-match lifted 33 → 43 / 100. Weights on Hugging Face.',
         stack: 'Jupyter',
         metric: 'Fine-tuned model on HF',
+      },
+      {
+        name: 'Suze',
+        desc: 'Secure agentic RAG assistant — 3-stage hybrid filter, LangGraph self-correction.',
+        stack: 'Python',
+        metric: 'Hybrid search · Self-correcting',
       },
     ],
     profileLabel: 'All repositories',
